@@ -23,9 +23,9 @@ class Organization::ManagerialDepartment
 		inventory/@sub_departments.length
 	end
 
-	def selective_inventory
+  def inventory_by_category(category_attr, value)
 		@sub_departments.inject(0) do |sum, dept| 
-			sum + dept.selective_inventory 
+			sum + dept.inventory_by_category(category_attr, value)
 		end
 	end
 end

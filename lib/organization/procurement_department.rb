@@ -8,8 +8,8 @@ class Organization::ProcurementDepartment
     @category_attributes = category_attributes
 	end
 
-  def selective_inventory
-    return 0 unless category_attributes && category_attributes[:color] == "Black"
+  def inventory_by_category(category_attr, value)
+    return 0 unless category_attributes && category_attributes[category_attr] == value
     inventory
   end
 end

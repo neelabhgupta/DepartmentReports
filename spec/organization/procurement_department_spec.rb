@@ -17,13 +17,18 @@ describe Organization::ProcurementDepartment do
 
   context 'category stats' do
     it "should return inventory as 200 for a Procurement Department with 200 black products" do
-      department1 = FactoryGirl.build(:procurement_department, inventory: 200, category_attributes: {color: "Black"})
-      expect(department1.selective_inventory).to eq(200)
+      department1 = FactoryGirl.build(:procurement_department, inventory: 200, category_attributes: {"color" => "Black"})
+      expect(department1.inventory_by_category('color', 'Black')).to eq(200)
     end
 
     it "should return inventory as 0 for a Procurement Department with 200 green products" do
-      department1 = FactoryGirl.build(:procurement_department, inventory: 200, category_attributes: {color: "Green"})
-      expect(department1.selective_inventory).to eq(0)
+      department1 = FactoryGirl.build(:procurement_department, inventory: 200, category_attributes: {"color" => "Green"})
+      expect(department1.inventory_by_category('color', 'Black')).to eq(0)
+    end
+
+    it "should return inventory as 200 for a Procurement Department with 200 green products" do
+      department1 = FactoryGirl.build(:procurement_department, inventory: 200, category_attributes: {"color" =>  "Green"})
+      expect(department1.inventory_by_category('color', 'Green')).to eq(200)
     end
   end
 

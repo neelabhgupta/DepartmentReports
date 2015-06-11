@@ -52,14 +52,14 @@ describe Organization::ManagerialDepartment do
     end
   end
 
-  context 'average sub inventory' do
-    it "should return average inventory of the imediate sub-departments for a department" do
-      sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300)
-      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300)
+  context 'inventory for black clothes' do
+    it "should return inventory for black clothes for a department" do
+      sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {color: "Black"})
+      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {color: "Green"})
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
       department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
-      expect(department2.average_inventory).to eq(450)
+      expect(department2.selective_inventory).to eq(300)
     end
   end 
 end

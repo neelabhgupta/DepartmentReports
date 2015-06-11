@@ -10,8 +10,15 @@ describe Organization::ProcurementDepartment do
 
   context 'inventory' do
   	it "should return inventory  as 200 for a Procurement Department initialized with 200 products" do
-  		department1 = FactoryGirl.build(:procurement_department, inventory: 200)
-  		expect(department1.inventory).to eq(200)
+      department1 = FactoryGirl.build(:procurement_department, inventory: 200)
+      expect(department1.inventory).to eq(200)
   	end
+  end
+
+  context 'catogerize' do
+    it "should return gender as 'men' when initiated with men" do
+      department1 = FactoryGirl.build(:procurement_department, gender: Organization::ProcurementDepartment::MEN)
+      expect(department1.gender).to eq(Organization::ProcurementDepartment::MEN)
+    end
   end
 end

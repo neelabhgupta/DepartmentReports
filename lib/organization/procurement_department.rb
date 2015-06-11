@@ -12,4 +12,9 @@ class Organization::ProcurementDepartment
     return 0 unless category_attributes && category_attributes[category_attr] == value
     inventory
   end
+
+  def inventory_by_conditions1
+    return inventory if category_attributes && category_attributes["color"] == "Black" && ["t-shirts", "jeans"].include?(category_attributes["garment_sub_type"])
+    0
+  end
 end

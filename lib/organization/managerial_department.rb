@@ -28,4 +28,10 @@ class Organization::ManagerialDepartment
 			sum + dept.inventory_by_category(category_attr, value)
 		end
 	end
+
+	def inventory_by_conditions1
+		@sub_departments.inject(0) do |sum, dept| 
+			sum + dept.inventory_by_conditions1
+		end
+	end
 end

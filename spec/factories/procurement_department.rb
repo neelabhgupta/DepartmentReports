@@ -3,9 +3,7 @@ FactoryGirl.define do
 		name "Untitled"
 		cash 0
 		inventory 0
-    gender Organization::ProcurementDepartment::MEN
-    garment_type ""
-    garment_sub_type ""
-		initialize_with { new(name, cash, inventory, gender, garment_type, garment_sub_type) }
+    category_attributes {}
+		initialize_with { new(name, cash, inventory, category_attributes) }
 	end
 end

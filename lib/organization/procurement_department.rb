@@ -7,4 +7,9 @@ class Organization::ProcurementDepartment
 		@inventory = inventory
     @category_attributes = category_attributes
 	end
+
+  def selective_inventory
+    return 0 if category_attributes[:color] != "Black"
+    inventory
+  end
 end

@@ -50,5 +50,16 @@ describe Organization::ManagerialDepartment do
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
       expect(department2.average_inventory).to eq(450)
     end
+  end
+
+  context 'average sub inventory' do
+    it "should return average inventory of the imediate sub-departments for a department" do
+      sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300)
+      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300)
+      sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
+      department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
+      department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
+      expect(department2.average_inventory).to eq(450)
+    end
   end 
 end

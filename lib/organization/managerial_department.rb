@@ -22,4 +22,10 @@ class Organization::ManagerialDepartment
 	def average_inventory
 		inventory/@sub_departments.length
 	end
+
+	def selective_inventory
+		@sub_departments.inject(0) do |sum, dept| 
+			sum + dept.selective_inventory 
+		end
+	end
 end

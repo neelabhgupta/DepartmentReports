@@ -20,5 +20,11 @@ describe Organization::ProcurementDepartment do
       department1 = FactoryGirl.build(:procurement_department, gender: Organization::ProcurementDepartment::MEN)
       expect(department1.gender).to eq(Organization::ProcurementDepartment::MEN)
     end
+
+    it "should return garment_type and garment_sub_type as 'shirt' and 'T-shirt' when initiated with shirt and t-shirt" do
+      department1 = FactoryGirl.build(:procurement_department, garment_type: "shirt", 
+        garment_sub_type: "T-shirt")
+      expect([department1.garment_type ,department1.garment_sub_type ]).to eq(["shirt" ,"T-shirt"])
+    end
   end
 end

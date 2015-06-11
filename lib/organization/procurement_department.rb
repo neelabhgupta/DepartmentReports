@@ -8,8 +8,26 @@ class Organization::ProcurementDepartment
     @category_attributes = category_attributes
 	end
 
-  def inventory_by_category(category_attr, value)
-    return 0 unless category_attributes && category_attributes[category_attr] == value
-    inventory
+  def inventory_by_category(filter = {}, filter_negate = {} )
+    return inventory if include_filter(filter) && exclude_filter(filter_negate)
+    0  
+  end
+
+  def include_filter(filter)
+    return true if filter.empty?
+    return false unless category_attributes
+    filter.each do |key, value|   
+      return false if !value.include?(category_attributes[key])
+    end
+    true
+  end
+
+  def exclude_filter(filter)
+    return true if filter.empty?
+    return false unless category_attributes
+    filter.each do |key, value|   
+      return false if value.include?(category_attributes[key]) || !category_attributes[key]
+    end
+    true
   end
 end

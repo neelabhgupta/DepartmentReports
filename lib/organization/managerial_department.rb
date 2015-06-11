@@ -23,9 +23,9 @@ class Organization::ManagerialDepartment
 		inventory/@sub_departments.length
 	end
 
-  def inventory_by_category(category_attr, value)
+  def inventory_by_category(filter = {}, filter_negate = {})
 		@sub_departments.inject(0) do |sum, dept| 
-			sum + dept.inventory_by_category(category_attr, value)
+			sum + dept.inventory_by_category(filter, filter_negate)
 		end
 	end
 end

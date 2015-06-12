@@ -59,7 +59,9 @@ describe Organization::ManagerialDepartment do
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
       department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
-      expect(department2.inventory_by_category("color", "Black")).to eq(300)
+      color_report = FactoryGirl.build(:color_inventory_report, color: "Black")
+      department2.generate_report(color_report)
+      expect(color_report.inventory).to eq(300)
     end
 
     it "should return 300 inventory for yellow clothes" do
@@ -68,7 +70,9 @@ describe Organization::ManagerialDepartment do
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
       department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
-      expect(department2.inventory_by_category("color", "Yellow")).to eq(300)
+      color_report = FactoryGirl.build(:color_inventory_report, color: "Yellow")
+      department2.generate_report(color_report)
+      expect(color_report.inventory).to eq(300)
     end
   end
 

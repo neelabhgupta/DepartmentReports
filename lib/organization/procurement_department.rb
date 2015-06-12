@@ -8,9 +8,8 @@ class Organization::ProcurementDepartment
     @category_attributes = category_attributes
 	end
 
-  def inventory_by_category(category_attr, value)
-    return 0 unless category_attributes && category_attributes[category_attr] == value
-    inventory
+  def generate_report(report)
+    report.build_report(self)
   end
 
   def inventory_for_black_clothes

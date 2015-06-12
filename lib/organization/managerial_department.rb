@@ -23,10 +23,10 @@ class Organization::ManagerialDepartment
 		inventory/@sub_departments.length
 	end
 
-  def inventory_by_category(category_attr, value)
-		@sub_departments.inject(0) do |sum, dept| 
-			sum + dept.inventory_by_category(category_attr, value)
-		end
+  def generate_report(report)
+  	@sub_departments.each do |dept|
+  		dept.generate_report(report)
+  	end
 	end
 
 	def inventory_for_black_clothes

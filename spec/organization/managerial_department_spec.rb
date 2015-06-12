@@ -62,7 +62,7 @@ describe Organization::ManagerialDepartment do
       expect(department2.inventory_by_category("color", "Black")).to eq(300)
     end
 
-    it "should return inventory for yellow clothes for a department" do
+    it "should return 300 inventory for yellow clothes" do
       sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Yellow"})
       sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Green"})
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
@@ -72,8 +72,8 @@ describe Organization::ManagerialDepartment do
     end
   end
 
-  context "another report" do
-    it "inventory for black clothes which are not t-shirts or jeans" do
+  context "report for a very specific category" do
+    it "should return 300 inventory for black clothes which are not t-shirts or jeans" do
       sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Yellow"})
       sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black", "garment_sub_type" => "t-shirts"})
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
@@ -83,8 +83,8 @@ describe Organization::ManagerialDepartment do
     end
   end
 
-  context "colors under-funded report" do
-    it "inventory for black clothes which have funding less that 100" do
+  context "colors which are under-funded report" do
+    it "should return 300 inventory for black clothes which have funding less that 100" do
       sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Yellow"}, cash: 230)
       sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black"}, cash: 90)
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black", "garment_sub_type" => "t-shirts"}, cash: 150)

@@ -13,8 +13,14 @@ class Organization::ProcurementDepartment
     inventory
   end
 
-  def inventory_by_conditions1
+  def inventory_for_black_clothes
     return inventory if category_attributes && category_attributes["color"] == "Black" && ["t-shirts", "jeans"].include?(category_attributes["garment_sub_type"])
     0
   end
+
+  def inventory_for_underfunded_colors(color, cash_threshold)
+    return inventory if (category_attributes && category_attributes["color"] == color ) && cash < cash_threshold
+    0
+  end
+
 end

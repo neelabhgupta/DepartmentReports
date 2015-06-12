@@ -1,4 +1,4 @@
-#Gives inventory for a particular category
+#Gives inventory for a particular color
 class Report::ColorInventoryReport
   attr_reader :color, :inventory
 
@@ -8,7 +8,7 @@ class Report::ColorInventoryReport
   end
 
   def build_report(department)
-    return 0 unless department.category_attributes && department.category_attributes["color"] == color
+    return 0 unless department.color == color
     @inventory = @inventory + department.inventory
   end
 

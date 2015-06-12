@@ -96,5 +96,18 @@ describe Organization::ManagerialDepartment do
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
       expect(department2.inventory_for_underfunded_colors('Black', 100)).to eq(300)
     end
-  end 
+  end
+
+  context 'average inventory for clothes of a particular color' do
+    it "should return average inventory for black clothes" do
+      sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black"})
+      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 200, category_attributes: {"color" => "Black"})
+      sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
+      department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
+      department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
+      color_report = FactoryGirl.build(:avg_inventory_by_color_report, color: "Black")
+      department1.generate_report(color_report)
+      expect(color_report.avg_inventory).to eq(250)
+    end
+  end   
 end

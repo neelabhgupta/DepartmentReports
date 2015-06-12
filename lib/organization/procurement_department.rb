@@ -12,6 +12,10 @@ class Organization::ProcurementDepartment
     report.build_report(self)
   end
 
+  def color
+    category_attributes["color"] if category_attributes
+  end
+
   def inventory_for_black_clothes
     return inventory if category_attributes && category_attributes["color"] == "Black" && ["t-shirts", "jeans"].include?(category_attributes["garment_sub_type"])
     0

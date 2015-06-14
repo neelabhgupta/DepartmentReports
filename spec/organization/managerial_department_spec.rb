@@ -52,32 +52,62 @@ describe Organization::ManagerialDepartment do
     end
   end
 
-  context 'inventory for black clothes' do
-    it "should return black clothes inventory as 300" do
+  context 'inventory for clothes of a particular category' do
+    it "should return inventory for black clothes for a department" do
       sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black"})
       sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Green"})
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
       department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
-      expect(department2.inventory_by_category({"color" => ["Black"]})).to eq(300)
+      color_report = FactoryGirl.build(:color_inventory_report, color: "Black")
+      department2.generate_report(color_report)
+      expect(color_report.inventory).to eq(300)
     end
 
-    it "should return inventory for yellow clothes as 300" do
+    it "should return 300 inventory for yellow clothes" do
       sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Yellow"})
       sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Green"})
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
       department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
-      expect(department2.inventory_by_category({"color" => ["Yellow"]})).to eq(300)
+      color_report = FactoryGirl.build(:color_inventory_report, color: "Yellow")
+      department2.generate_report(color_report)
+      expect(color_report.inventory).to eq(300)
     end
+  end
 
-    it "should return inventory for yellow or green clothes as 600" do
+  context "report for a very specific category" do
+    it "should return 300 inventory for black clothes which are not t-shirts or jeans" do
       sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Yellow"})
-      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Green"})
+      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black", "garment_sub_type" => "t-shirts"})
       sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
       department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
       department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
-      expect(department2.inventory_by_category({"color" => ["Yellow", "Green"]})).to eq(600)
+      expect(department2.inventory_for_black_clothes()).to eq(300)
     end
-  end 
+  end
+
+  context "colors which are under-funded report" do
+    it "should return 300 inventory for black clothes which have funding less that 100" do
+      sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Yellow"}, cash: 230)
+      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black"}, cash: 90)
+      sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black", "garment_sub_type" => "t-shirts"}, cash: 150)
+      department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
+      department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
+      expect(department2.inventory_for_underfunded_colors('Black', 100)).to eq(300)
+    end
+  end
+
+  context 'average inventory for clothes of a particular color' do
+    it "should return average inventory for black clothes" do
+      sub_department1 = FactoryGirl.build(:procurement_department, inventory: 300, category_attributes: {"color" => "Black"})
+      sub_department2 = FactoryGirl.build(:procurement_department, inventory: 200, category_attributes: {"color" => "Black"})
+      sub_department3 = FactoryGirl.build(:procurement_department, inventory: 300)
+      department1 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department1, sub_department2])
+      department2 = FactoryGirl.build(:managerial_department, sub_departments: [sub_department3, department1])
+      color_report = FactoryGirl.build(:avg_inventory_by_color_report, color: "Black")
+      department1.generate_report(color_report)
+      expect(color_report.avg_inventory).to eq(250)
+    end
+  end   
 end

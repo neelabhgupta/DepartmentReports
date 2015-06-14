@@ -23,9 +23,21 @@ class Organization::ManagerialDepartment
 		inventory/@sub_departments.length
 	end
 
-  def inventory_by_category(filter = {}, filter_negate = {})
+  def generate_report(report)
+  	@sub_departments.each do |dept|
+  		dept.generate_report(report)
+  	end
+	end
+
+	def inventory_for_black_clothes
 		@sub_departments.inject(0) do |sum, dept| 
-			sum + dept.inventory_by_category(filter, filter_negate)
+			sum + dept.inventory_for_black_clothes
+		end
+	end
+
+	def inventory_for_underfunded_colors(color, cash_threshold)
+		@sub_departments.inject(0) do |sum, dept| 
+			sum + dept.inventory_for_underfunded_colors(color, cash_threshold)
 		end
 	end
 end
